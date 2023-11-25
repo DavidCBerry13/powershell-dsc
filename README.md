@@ -14,6 +14,8 @@ The examples in this repository are designed to work with PowerShell 5.1/DSC 1.1
 
 If you are using [Visual Studio Code](https://code.visualstudio.com/) and you have PowerShell 7 installed, VS Code will default to using PowerShell 7, which will not work for these DSC examples and give you errors in your editor window.  To change the PowerShell 5.1, click the curly braces (`{}`) just to the left of the word `PowerShell` in the lower right hand corner of the VS Code Window and use the *PowerShell Session Menu* to select PowerShell 5.1.  This should resolve and errors in the editor Window and change the terminal in VS Code to use PowerShell 5.1.
 
+![A screenshot showing the location of the curly braces used to change the version of PowerShell in Visual Studio Code](images/switch-powershell-version-1.png)
+
 ## Installing DSC Modules on Your Workstation
 
 For anything but the most basic DSC configurations, you will need to install additional PowerShell modules on both your Workstation and any servers you want to configure using DSC.  The steps below are aimed at configuring your workstation to be able to download modules from the PowerShell gallery.
@@ -52,18 +54,40 @@ PowerShell 5.1 comes with version 1.0.0.1 of *PowerShellGet* which has very limi
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
     ```
 
+5. **Use the Install-Module command to install the module**
+
+    Use the [`Install-Module`](https://learn.microsoft.com/en-us/powershell/module/powershellget/install-module?view=powershellget-2.x) command to install the required module(s) on your workstation.  
+
+    The following command installs version 9.0.0 the *ComputerManagementDsc* module for all users on the workstation.  This command requires administrative privelages.
+
+    ```PowerShell
+    Install-Module -Name ComputerManagementDsc -RequiredVersion 9.0.0
+    ```
+
+    You can also install modules for only the current user by using the `-Scope CurrentUser` parameter.  This is useful if you do not have administrative rights on your workstation.
+
+    ```PowerShell
+    Install-Module -Name ComputerManagementDsc -RequiredVersion 9.0.0 -Scope CurrentUser
+    ```
+
 ## Installing DSC Modules on a Server
 
 For DSC to function correctly, any DSC modules used in your configuration need to be also installed on the server being configured.  That is, if you use the *ComputerManagementDSC* module as part of a configuration for web servers, then the *ComputerManagementDSC* module needs to not just be on the workstation you used to create your DSC configuration, but all of the web servers you intend to deploy that configuration to.
 
-It is likely that servers have restricted access to the Internet, so it may not be possible to follow the same steps outlined above for a workstation and download modules from the PowerShell gallery to your servers.  In these cases, you need to copy the modules manually to the target server before you attempt to confugure the server using DSC.
+It is likely that servers have restricted access to the Internet, so it may not be possible to follow the same steps outlined above for a workstation and then use [Install-Module](https://learn.microsoft.com/en-us/powershell/module/powershellget/install-module?view=powershellget-2.x) to install modules from the PowerShell gallery on your servers.  In these cases, you need to copy the modules manually to the target server before you attempt to confugure the server using DSC.
 
-When you download a module from the PowerShell gallery, there are possible locations where the module will download to.
+When you use [Install-Module](https://learn.microsoft.com/en-us/powershell/module/powershellget/install-module?view=powershellget-2.x) to install a module, the contents of the module will be downloaded and installed into one of two locations on your workstation depending on the options used when calling `Install-Module`.
 
-- **C:\Program Files\WindowsPowerShell\Modules** - This is the default location when running the `install-Module` command.  Installing modules to this location requires Administrator access.
+- **C:\Program Files\WindowsPowerShell\Modules** - This is the default location when running the `Install-Module` command.  Installing modules to this location requires Administrator access.
 - **USERPROFILE\Documents\WindowsPowerShell\Modules** - This is the location used if you specify a parameter of `-Scope CurrentUser` when using the Install-Module command.
 
-When copying modules to the target server, copy the required modules to one of these two locations.  If copying modules to the *USERPROFILE* directory, make sure this is the profile of the user who is going to run DSC comamnds on the server.
+When copying modules to the target server, you can find where modules are installed by examining the `$env:PSModulePath` variable.  Copy the required modules to one of the directories listed in this folder.  If copying modules to a *USERPROFILE* directory, make sure this is the profile of the user who is going to run DSC comamnds on the server.
+
+You can verify that the modules are available on the target servery by using the [`Get-Module`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-module?view=powershell-5.1) command.
+
+```PowerShell
+Get-Module -ListAvailable
+```
 
 ## Local Configuration Manager
 
