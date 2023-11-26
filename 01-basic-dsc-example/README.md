@@ -16,7 +16,7 @@ A couple of important implementation notes:
   - Compile the configuration on your developer workstation
   - Copy the resulting MOF files to the target server
   - Run `Start-DscConfiguration` on the target server to configure that server
--This DSC Config uses the [PSDscResources](https://github.com/PowerShell/PSDscResources) module.  This means:
+- This DSC Config uses the [PSDscResources](https://github.com/PowerShell/PSDscResources) module.  This means:
   - You need to install this module on your local workstation using an `Install-Module -Name PSDscResources`
   - Make sure this module is on the target server you deploy your DSC configuration to (see the [README](./README.md) at the root of the repo on options to do this)
 
