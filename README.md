@@ -1,11 +1,11 @@
 # PowerShell DSC Examples
 
-A repo to learn and experiemnt with PowerShell DSC
+A repo to learn and experiment with PowerShell DSC
 
 ## PowerShell DSC Modules
 
 - [PSDscResources](https://github.com/PowerShell/PSDscResources) - In-box DSC resources that update many of the included DSC resources and adds some community contributions.
-- [ComputerManagementDsc](https://github.com/dsccommunity/ComputerManagementDsc/wiki) - Resources for Domain Joins, Smb Shares, Power Plan, Time Zons, UAC, RDP, and more.
+- [ComputerManagementDsc](https://github.com/dsccommunity/ComputerManagementDsc/wiki) - Resources for Domain Joins, Smb Shares, Power Plan, Time Zones, UAC, RDP, and more.
 - [NetworkingDsc](https://www.powershellgallery.com/packages/NetworkingDsc/9.0.0) - Resources for managing network configuration
 
 ## Configuring Visual Studio Code for working with DSC
@@ -222,3 +222,7 @@ State                [string]             False {Ignore, Running, Stopped}
 TerminateTimeout     [UInt32]             False {}
 
 ```
+
+## Usefule Resources
+
+- [Getting started with PowerShell Desired State Configuration (DSC)](https://octopus.com/blog/getting-started-with-powershell-dsc) by Shawn Sesna - Article on the Octopus Deploy blog
