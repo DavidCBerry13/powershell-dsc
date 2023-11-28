@@ -1,6 +1,6 @@
 # 02 - Chocolatey Software Install Example
 
-Almost any system you install is going to need software on it.  These might just be basic utilities like [Notepad++](https://notepad-plus-plus.org/) and [7-Zip](https://7-zip.org/), but in any case, you want an easy way to install, maintain, and update this software when neccessary. 
+Almost any system you install is going to need software on it.  These might just be basic utilities like [Notepad++](https://notepad-plus-plus.org/) and [7-Zip](https://7-zip.org/), but in any case, you want an easy way to install, maintain, and update this software when neccessary.
 
 [Chocolatey](https://docs.chocolatey.org/en-us/) is a package manager for Windows, similar to [apt](https://en.wikipedia.org/wiki/APT_(software)) or [yum](https://en.wikipedia.org/wiki/Yum_(software)) on Linux system.  Rather than installing an MSI, applications are installed through Chocolatey.  In this way, they can be managed through the Chocolatey command line ([choco](https://docs.chocolatey.org/en-us/choco/commands/)) which can show you what packages (apps) are out of date and allows you to easily update those apps to the latest version.
 
@@ -38,7 +38,7 @@ There are four items that you will need to include in your DSC configuration.
 
 3. **Install Chocolatey using the cChocoInstaller element**
 
-    For Chocolatey to install software, you need to install Chocolatey itself.  The cChocoInstaller element is designed for this purpose.
+    For Chocolatey to install software, you need to install Chocolatey itself.  The [cChocoInstaller](#cchocoinstaller) resource is designed for this purpose.
 
     This command installs Chocolatey to the C:\ProgramData\chocolatey folder (which is standard if you just downloaded and installed Chocolatey on your system).  Note that C:\ProgramData\ is a hidden folder, so to see what is in the folder you need to navigate directly to it.
 
@@ -51,7 +51,7 @@ There are four items that you will need to include in your DSC configuration.
 
 4. **Install the desired app(s) using the cChocoPackageInstaller element**
 
-    Use cChocoPackageInstaller to install specific packages (apps).  There would be one of these configuration elements for each package you wanted installed on a system.
+    Use the [cChocoPackageInstaller](#cchocopackageinstaller) resource to install specific packages (apps).  There would be one of these configuration elements for each package you wanted installed on a system.
 
     - Note how this element contains a `DependsOn` element pointing to the Chocolately installation
     - If using an internal repository, you would include the `Source` parameter to specify the location of the internal repository
