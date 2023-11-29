@@ -12,7 +12,7 @@ The DSC configuration is designed to:
 | Module Name                                                    | Version  | Install-Package Command             | DSC Resources  |
 |----------------------------------------------------------------|----------|-------------------------------------|----------------|
 | PSDesiredStateConfiguration                                    | 1.1      | N/A (Built-in to PowerShell)        | File           |
-| [PSDscResources](https://github.com/PowerShell/PSDscResources) | 2.12.0.0 | Install-Package -Name PSDscResource | WindowsFeature |
+| [PSDscResources](https://github.com/PowerShell/PSDscResources) | 2.12.0.0 | Install-Module -Name PSDscResource  | WindowsFeature |
 
 ## Implementation Notes
 
