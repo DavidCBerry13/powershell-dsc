@@ -7,9 +7,41 @@ The DSC configuration is designed to:
 - Set up a basic web server with IIS, ASP.NET, and a few IIS features
 - Make sure a couple directories (*C:\logs* and *C:\perflogs*) are present on the target server
 
+## DSC Modules Used
+
+| Module Name                                                    | Version  | Install-Package Command             | DSC Resources  |
+|----------------------------------------------------------------|----------|-------------------------------------|----------------|
+| PSDesiredStateConfiguration                                    | 1.1      | N/A (Built-in to PowerShell)        | File           |
+| [PSDscResources](https://github.com/PowerShell/PSDscResources) | 2.12.0.0 | Install-Package -Name PSDscResource | WindowsFeature |
+
 ## Implementation Notes
 
-A couple of important implementation notes:
+There are two files that make up this example.
+
+- ***BasicDscExampleConfiguration.ps1*** - This is the DSC configuration file
+- ***Create-BasicDscExampleConfiguration.ps1*** - A helper script to generate the configuration.
+
+With the helper script, you can generate the configuration simply by calling the helper script.  The MOF files for the configuration will be generated into a subdirectory under the configuration named *output*
+
+```PowerShell
+.\Create-BasicDscExampleConfiguration.ps1
+```
+
+Without the helper script, you would need to first import the DSC Configuration into your PowerShell by dot sourcing the configuration as follows.
+
+```PowerShell
+. BasicDscExampleConfiguration.ps1
+```
+
+Then, after the configuration is imported, you need to execute the configuration and supply an output path for where you want the generated MOF files to go as follows.
+
+```PowerShell
+BasicDscExampleConfiguration -OutputPath \<output directory>
+```
+
+There is nothing to prevent you from importing the configuration into your shell and generating the MOF files this way.  The helper script just makes it a little easier for the most common use case.
+
+A couple of additional important implementation notes:
 
 - This DSC Config was tested against Windows Server 2022.  Older versions of Windows may not have .NET Framework available as a Windows Feature like Server 2022
 - This configuration uses a target node of *localhost*, meaning the intent is that you:
@@ -26,15 +58,19 @@ A couple of important implementation notes:
 
     Make sure that you are in a PowerShell 5.1 prompt when you compile the config.  Otherwise you will get a strange error about an ArrayList not being supported.
 
+    Run the helper script to compile the configuration and generated the MOF files.
+
     ```PowerShell
-    .\BasicDscExampleConfiguration.ps1
+    .\Create-BasicDscExampleConfiguration.ps1
     ```
 
-    The way the file is setup, two files (*localhost.mof* and *localhost.meta.mof*) will be created in the same directory as the DSC Config (PS1) file.
+    The geneated MOF files (*localhost.mof* and *localhost.meta.mof*) will be in a subdirectory named *output* under the director where the configuration is located.
 
 2. **Copy the Generated MOF files to the target server**
 
-    Its a good idea to create a direcotry on the target server to contain these files.  In this example, I am going to create a directory called *C:\dsc-config* on the server and copy the files there.
+    It is a good idea to create a directory on the target server to contain these files.  In this example, I am going to create a directory called *C:\dsc-config* on the server and copy the files there.
+
+    Files can be copied to a server by any mechanism, such as RDP or a file share.
 
 3. **Copy the PSDscResources Module to the Target Server**
 
