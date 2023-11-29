@@ -6,6 +6,14 @@ Almost any system you install is going to need software on it.  These might just
 
 Chocolatey also has a DSC module, [cChoco](https://docs.chocolatey.org/en-us/features/integrations#powershell-dsc) that enables apps to be managed through a DSC configuration.  This example uses the cChoco module to install Chocolatey and then intstall Notepad++, 7-Zip, and Process Explorer.  In this example, these packages are installed from the [Chocolatey Community package repository](https://community.chocolatey.org/packages).  In a corporate scenario, you would set up your own internal package repository and point your DSC configuration at your internal repository.
 
+## DSC Modules Used
+
+| Module Name                                                                      | Version  | Install-Package Command                              | DSC Resource(s) |
+|----------------------------------------------------------------------------------|----------|------------------------------------------------------|-----------------|
+| PSDesiredStateConfiguration                                                      | 1.1      | N/A (Built-in to PowerShell)                         | File            |
+| [PSDscResources](https://github.com/PowerShell/PSDscResources)                   | 2.12.0.0 | Install-Module -Name PSDscResource                   | WindowsFeature  |
+| [cChoco](https://docs.chocolatey.org/en-us/features/integrations#powershell-dsc) | 2.6.0.0  | Install-Module -Name cChoco -RequiredVersion 2.6.0.0 | cChocoInstaller, cChocoPackageInstaller |
+
 ## Implementation Notes
 
 - You must use cChcoco version 2.6.0.0 or higher.  Version 2.5.0 and below seems to have a bug such that it does not work on Windows 2022.

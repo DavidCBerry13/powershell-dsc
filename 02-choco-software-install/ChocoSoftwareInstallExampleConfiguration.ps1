@@ -108,7 +108,3 @@ Configuration ChocoSoftwareInstallExampleConfiguration
 
     }
 }
-
-# We'll output the MOF file to the same directory this Config file is in
-$OutputPath = Split-Path -parent $PSCommandPath
-ChocoSoftwareInstallExampleConfiguration -OutputPath $OutputPath
