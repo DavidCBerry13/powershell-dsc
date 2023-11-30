@@ -1,34 +1,20 @@
-[CmdletBinding()]
-param(
-  [Parameter(Mandatory = $true)]
-  [String]
-  [ValidateSet("Eastern Standard Time",
-    "Central Standard Time",
-    "Mountain Standard Time",
-    "Pacific Standard Time",
-    "Alaskan Standard Time",
-    "Aleutian Standard Time",
-    "Hawaiian Standard Time",
-    "US Mountain Standard Time",
-    "US Eastern Standard Time")]
-  $TimeZoneId 
-)
 
 Configuration CommandLineParametersExampleConfiguration
 {
     param(
-    [Parameter(Mandatory = $true)]
-    [String]
-    [ValidateSet("Eastern Standard Time",
-        "Central Standard Time",
-        "Mountain Standard Time",
-        "Pacific Standard Time",
-        "Alaskan Standard Time",
-        "Aleutian Standard Time",
-        "Hawaiian Standard Time",
-        "US Mountain Standard Time",
-        "US Eastern Standard Time")]
-      $TimeZone
+      [String[]]
+      $ComputerName="localhost",      
+      
+      [Parameter(Mandatory = $true)]
+      [String]
+      [ValidateSet("Eastern Standard Time",
+          "Central Standard Time",
+          "Mountain Standard Time",
+          "Pacific Standard Time",
+          "Alaskan Standard Time",
+          "Hawaiian Standard Time",
+          "US Mountain Standard Time")]
+      $TimeZoneId
     )
 
 
@@ -36,7 +22,7 @@ Configuration CommandLineParametersExampleConfiguration
     Import-DscResource -ModuleName cChoco -ModuleVersion 2.6.0.0
     Import-DscResource -ModuleName ComputerManagementDsc -ModuleVersion 9.0.0
 
-    Node "localhost"
+    Node $ComputerName
     {
 
         WindowsFeature WebServer
@@ -100,7 +86,7 @@ Configuration CommandLineParametersExampleConfiguration
         TimeZone TimeZoneExample
         {
             IsSingleInstance = 'Yes'
-            TimeZone         = $TimeZone
+            TimeZone         = $TimeZoneId
         }
 
         # Before installing any packages, you need to install Chocolatey itself (this does the to C:\choco directory)
@@ -142,10 +128,5 @@ Configuration CommandLineParametersExampleConfiguration
           RefreshMode            = "Push"
       }
 
-
     }
 }
-
-# We'll output the MOF file to the same directory this Config file is in
-$OutputPath = Split-Path -parent $PSCommandPath
-CommandLineParametersExampleConfiguration -TimeZone $TimeZoneId -OutputPath $OutputPath
