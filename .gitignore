@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 # PowerShell DSC MOF files
 *.mof
+certificates/*
