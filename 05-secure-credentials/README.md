@@ -1,4 +1,4 @@
-# 03 - Secure Credentials
+# 05 - Secure Credentials
 
 The previous example was able to onclude credentials in the MOF file but these credentials were in plain text in the MOF file.  A better approach is to be encrypt the credentials using a public/private key certificate, which is what this example does.  
 
